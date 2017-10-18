@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/sBackground"
+    android:orientation="vertical">
+<TextView
+    android:id="@+id/question_text"
+    android:textStyle="bold"
+    android:textSize="40sp"
+    android:text="@string/hello_bootcamp"
+    android:padding="40dp"
+    android:textAlignment="center"
+    android:textColor="@color/sWhite"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <RadioButton
+            android:id="@+id/true_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="True"
+            android:padding="10dp"/>
+        <RadioButton
+            android:id="@+id/false_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="False"
+            android:padding="10dp"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/answer_text"
+        android:textStyle="bold"
+        android:textSize="40sp"
+        android:padding="40dp"
+        android:textAlignment="center"
+        android:textColor="@color/sWhite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+<View
+    android:layout_weight="1"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"/>
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:text="Next Question" />
+</LinearLayout>
