@@ -5,26 +5,26 @@ package ga.example.rncremote.quizzical;
  */
 
 public class Question {
-    private boolean correctAnswer;
-    private String question;
-    public Question(boolean correctAnswer, String question) {
-        this.correctAnswer = correctAnswer;
-        this.question = question;
+    private boolean answer;
+    private String statement;
+    public Question(boolean answer, String statement) {
+        this.answer = answer;
+        this.statement = statement;
     }
-    public String getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(String question) {
-        this.question = question;
+    public String getStatement() {
+        return statement;
     }
 
-    public boolean getCorrectAnswer() {
-        return correctAnswer;
+    public void setStatement(String statement) {
+        this.statement = statement;
     }
 
-    public void setCorrectAnswer(boolean correctAnswer) {
-        this.correctAnswer = correctAnswer;
+    public boolean getAnswer() {
+        return answer;
+    }
+
+    public void setAnswer(boolean answer) {
+        this.answer = answer;
     }
 }
 

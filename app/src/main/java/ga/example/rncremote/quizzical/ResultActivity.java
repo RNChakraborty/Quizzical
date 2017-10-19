@@ -21,6 +21,7 @@ public class ResultActivity extends AppCompatActivity {
     private TextView usrText;
 
     private Button playAgain;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,19 +30,19 @@ public class ResultActivity extends AppCompatActivity {
         attachListeners();
         int result = getIntent().getIntExtra(KEY_SCORE, 0);
         int total = getIntent().getIntExtra(KEY_TOTAL, 0);
-        decideResultType(result,total);
+        decideResultType(result, total);
         resultText.setText(result + "/" + total);
 
     }
 
-    public void initialize(){
-        playAgain=(Button) findViewById(R.id.play_again_button);
+    public void initialize() {
+        playAgain = (Button) findViewById(R.id.play_again_button);
         this.resultText = (TextView) findViewById(R.id.result_text);
         usrText = (TextView) findViewById(R.id.user_text);
-        usrText.setText("Hi "+ getIntent().getStringExtra(Constants.KEY_USER_NAME)+" :) !");
+        usrText.setText("Hi " + getIntent().getStringExtra(Constants.KEY_USER_NAME) + " :) !");
     }
 
-    public void attachListeners(){
+    public void attachListeners() {
         playAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,28 +53,29 @@ public class ResultActivity extends AppCompatActivity {
         });
 
     }
-    public void forwardIntent(){
+
+    public void forwardIntent() {
         Intent quizIntent = new Intent(this, QuizActivity.class);
-        quizIntent.putExtra(Constants.KEY_PLAY_AGAIN,true);
+        quizIntent.putExtra(Constants.KEY_PLAY_AGAIN, true);
         quizIntent.putExtra(Constants.KEY_USER_NAME, Constants.USER_NAME);
         startActivity(quizIntent);
     }
-    public void decideResultType(int result, int total){
-        double percentage=((double)result/total)*100;
-        Log.e("result",percentage+"");
-        if(percentage>80){
+
+    public void decideResultType(int result, int total) {
+        double percentage = ((double) result / total) * 100;
+        Log.e("result", percentage + "");
+        if (percentage > 80) {
             goodResult();
-        }
-        else{
+        } else {
             badResult();
         }
     }
 
-    public void goodResult(){
+    public void goodResult() {
         resultText.setTextColor((getResources().getColor(R.color.sGreen)));
     }
 
-    public void badResult(){
+    public void badResult() {
         resultText.setTextColor((getResources().getColor(R.color.colorAccent)));
     }
 }

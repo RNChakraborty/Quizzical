@@ -8,15 +8,15 @@ import java.util.List;
  */
 
 public class Quiz {
-    private List<Question> qList = new ArrayList();
+    private List<Question> questions = new ArrayList();
     private static Quiz quiz;
 
     public List<Question> getList() {
-        return qList;
+        return questions;
     }
 
     public void addQuestion(Question q) {
-        qList.add(q);
+        questions.add(q);
 
     }
 

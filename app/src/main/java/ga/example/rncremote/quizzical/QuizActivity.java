@@ -36,18 +36,19 @@ public class QuizActivity extends AppCompatActivity {
     private static int questionIndex;
     private static final String CORRECT_ANSWER_TEXT = "Correct! +1 points";
     private static final String WRONG_ANSWER_TEXT = "Wrong Answer! +0 points ";
+    private Quiz quiz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
+        quiz= new QuizRepository(this).getQuiz();
         setContentView(R.layout.activity_quiz);
         initialize();
         attachListners();
-        boolean playAgain = getIntent().getBooleanExtra(Constants.KEY_PLAY_AGAIN,false);
-        if(playAgain){
-            questionIndex=0;
+        boolean playAgain = getIntent().getBooleanExtra(Constants.KEY_PLAY_AGAIN, false);
+        if (playAgain) {
+            questionIndex = 0;
             enableRadio();
         }
         showQuestion();
@@ -75,15 +76,15 @@ public class QuizActivity extends AppCompatActivity {
         questionText = (TextView) findViewById(R.id.question_text);
         resultText = (TextView) findViewById(R.id.result_text);
         usrText = (TextView) findViewById(R.id.user_text);
-        rightOrWrongImage= (ImageView) findViewById(R.id.right_or_wrong_img);
-        usrText.setText("Hi "+ getIntent().getStringExtra(Constants.KEY_USER_NAME)+" :) !");
+        rightOrWrongImage = (ImageView) findViewById(R.id.right_or_wrong_img);
+        usrText.setText("Hi " + getIntent().getStringExtra(Constants.KEY_USER_NAME) + " :) !");
     }
 
-    public void attachListners(){
+    public void attachListners() {
         trueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  checkAnswer(true);
+                checkAnswer(true);
                 falseButton.setChecked(false);
             }
         });
@@ -107,26 +108,25 @@ public class QuizActivity extends AppCompatActivity {
         });
     }
 
-    public void showQuestion(){
+    public void showQuestion() {
         enableRadio();
         resultText.setText("");
         rightOrWrongImage.setImageResource(R.mipmap.ic_launcher);
-        questionText.setText(Quiz.getInstance().getList().get(questionIndex).getQuestion());
+        questionText.setText(quiz.getList().get(questionIndex).getStatement());
 
     }
 
-    public void checkAnswer(boolean picked){
-     disableRadio();
+    public void checkAnswer(boolean picked) {
+        disableRadio();
         lastAnswer = picked;
         isAnswered = true;
-        if(picked==Quiz.getInstance().getList().get(questionIndex).getCorrectAnswer()){
+        if (picked == quiz.getList().get(questionIndex).getAnswer()) {
             // Correct;
             rightOrWrongImage.setImageResource(R.drawable.tick);
             resultText.setText(CORRECT_ANSWER_TEXT);
             score++;
 
-        }
-        else{
+        } else {
             //Incorrect
             rightOrWrongImage.setImageResource(R.drawable.wrong);
             resultText.setText(WRONG_ANSWER_TEXT);
@@ -134,13 +134,11 @@ public class QuizActivity extends AppCompatActivity {
 
     }
 
-    public void nextQuestion(){
+    public void nextQuestion() {
 
-        if(questionIndex>=Quiz.getInstance().getList().size()-1){
+        if (questionIndex >= quiz.getList().size() - 1) {
             forwardIntent();
-        }
-
-        else {
+        } else {
             questionIndex++;
             showQuestion();
 
@@ -148,16 +146,19 @@ public class QuizActivity extends AppCompatActivity {
 
 
     }
+
     private Question getCurrentQuestion() {
-        return Quiz.getInstance().getList().get(questionIndex);
+        return quiz.getList().get(questionIndex);
     }
-    public void forwardIntent(){
+
+    public void forwardIntent() {
         Intent resultIntent = new Intent(this, ResultActivity.class);
         resultIntent.putExtra(ResultActivity.KEY_SCORE, score);
-        resultIntent.putExtra(ResultActivity.KEY_TOTAL, Quiz.getInstance().getList().size());
+        resultIntent.putExtra(ResultActivity.KEY_TOTAL, quiz.getList().size());
         resultIntent.putExtra(Constants.KEY_USER_NAME, Constants.USER_NAME);
         startActivity(resultIntent);
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -165,21 +166,22 @@ public class QuizActivity extends AppCompatActivity {
         outState.putBoolean(KEY_ANSWERED, isAnswered);
         outState.putInt(KEY_QUESTION_INDEX, questionIndex);
         outState.putInt(KEY_SCORE, score);
-Log.e("onsave", "onsaveInstance called");
+        Log.e("onsave", "onsaveInstance called");
 
     }
-    public void enableRadio(){
+
+    public void enableRadio() {
         trueButton.setChecked(false);
         falseButton.setChecked(false);
         trueButton.setEnabled(true);
         falseButton.setEnabled(true);
     }
 
-    public void disableRadio(){
+    public void disableRadio() {
 
         trueButton.setEnabled(false);
         falseButton.setEnabled(false);
     }
-    }
+}
 
 
