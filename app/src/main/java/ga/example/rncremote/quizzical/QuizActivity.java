@@ -1,6 +1,8 @@
 package ga.example.rncremote.quizzical;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -43,8 +45,9 @@ public class QuizActivity extends AppCompatActivity implements QuizRepository.Ca
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-      //quiz= new QuizRepository(this).getQuiz();
-        new QuizRepository(this).getRemoteQuiz(this);
+        //quiz= new QuizRepository(this).getQuiz();
+        int id = getIntent().getIntExtra(Constants.KEY_QUIZ_ID, -1);
+        new QuizRepository(this).getRemoteQuiz(id, this);
         setContentView(R.layout.activity_quiz);
         initialize();
         attachListners();
@@ -79,7 +82,7 @@ public class QuizActivity extends AppCompatActivity implements QuizRepository.Ca
         resultText = (TextView) findViewById(R.id.result_text);
         usrText = (TextView) findViewById(R.id.user_text);
         rightOrWrongImage = (ImageView) findViewById(R.id.right_or_wrong_img);
-        usrText.setText("Hi " + getIntent().getStringExtra(Constants.KEY_USER_NAME) + " :) !");
+        usrText.setText("Hi " + getUserName() + " :) !");
     }
 
     public void attachListners() {
@@ -157,7 +160,7 @@ public class QuizActivity extends AppCompatActivity implements QuizRepository.Ca
         Intent resultIntent = new Intent(this, ResultActivity.class);
         resultIntent.putExtra(ResultActivity.KEY_SCORE, score);
         resultIntent.putExtra(ResultActivity.KEY_TOTAL, quiz.getList().size());
-        resultIntent.putExtra(Constants.KEY_USER_NAME, Constants.USER_NAME);
+        resultIntent.putExtra(Constants.KEY_USER_NAME, getUserName());
         startActivity(resultIntent);
     }
 
@@ -198,6 +201,15 @@ public class QuizActivity extends AppCompatActivity implements QuizRepository.Ca
             checkAnswer(lastAnswer);
         }
     }
+
+    public String getUserName() {
+        SharedPreferences sharedPref = this.getSharedPreferences(Constants.KEY_USER_NAME, Context.MODE_PRIVATE);
+        String defUserName = getResources().getString(R.string.user_name);
+        String userName = sharedPref.getString(Constants.KEY_USER_NAME, defUserName);
+        Log.e("bootcamp user name", userName);
+        return userName;
+    }
+
 }
 
 

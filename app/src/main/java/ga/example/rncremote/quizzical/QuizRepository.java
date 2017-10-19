@@ -8,6 +8,7 @@ import com.squareup.moshi.Moshi;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import okio.Okio;
 import retrofit2.Call;
@@ -85,16 +86,11 @@ public class QuizRepository {
     }
 
 
-    public void getRemoteQuiz(final CallBack callback) {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://oolong.tahnok.me/")
-                .addConverterFactory(MoshiConverterFactory.create())
-                .build();
+    public void getRemoteQuiz(int id, final CallBack callback) {
+        QuizService service = getQuizService();
+      //  service.getQuiz();
 
-        QuizService service = retrofit.create(QuizService.class);
-        service.getQuiz();
-
-        service.getQuiz().enqueue(new retrofit2.Callback<Quiz>() {
+        service.getQuiz(id).enqueue(new retrofit2.Callback<Quiz>() {
             @Override
             public void onResponse(Call<Quiz> call, Response<Quiz> response) {
 
@@ -114,10 +110,51 @@ public class QuizRepository {
         //return null;
     }
 
+    private QuizService getQuizService() {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://oolong.tahnok.me/")
+                .addConverterFactory(MoshiConverterFactory.create())
+                .build();
+
+        return retrofit.create(QuizService.class);
+    }
+
     public interface CallBack {
+
         void onFailure();
 
         void onSuccess(Quiz quiz);
+
+    }
+
+    public void getRemoteQuizzes(final QuizzesCallback callback){
+
+        QuizService service= getQuizService();
+        service.getQuizzes().enqueue(new retrofit2.Callback<List<Quiz>>() {
+            @Override
+            public void onResponse(Call<List<Quiz>> call, Response<List<Quiz>> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.body());
+                } else {
+                    callback.onFailure();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Quiz>> call, Throwable t) {
+                callback.onFailure();
+            }
+        });
+
+
+    }
+
+    public interface QuizzesCallback{
+
+        void onFailure();
+
+        void onSuccess(List<Quiz> quiz);
+
     }
 }
 

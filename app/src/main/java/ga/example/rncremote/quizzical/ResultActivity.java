@@ -55,9 +55,9 @@ public class ResultActivity extends AppCompatActivity {
     }
 
     public void forwardIntent() {
-        Intent quizIntent = new Intent(this, QuizActivity.class);
-        quizIntent.putExtra(Constants.KEY_PLAY_AGAIN, true);
-        quizIntent.putExtra(Constants.KEY_USER_NAME, Constants.USER_NAME);
+        Intent quizIntent = new Intent(this, ListActivity.class);
+       // quizIntent.putExtra(Constants.KEY_PLAY_AGAIN, true);
+        //quizIntent.putExtra(Constants.KEY_USER_NAME, Constants.USER_NAME);
         startActivity(quizIntent);
     }
 

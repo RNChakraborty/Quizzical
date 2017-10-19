@@ -1,6 +1,8 @@
 package ga.example.rncremote.quizzical;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -37,17 +39,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void forwardIntent(){
-        Intent resultIntent = new Intent(this, QuizActivity.class);
+    public void forwardIntent() {
+        Intent resultIntent = new Intent(this, ListActivity.class);
         resultIntent.putExtra(Constants.KEY_USER_NAME, Constants.USER_NAME);
         startActivity(resultIntent);
     }
+
     public void attachListrners() {
 
         enterBUtton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              Constants.USER_NAME=enterName.getText().toString();
+                Constants.USER_NAME = enterName.getText().toString();
+                writeToSharedPreference(Constants.USER_NAME);
                 forwardIntent();
             }
         });
@@ -66,13 +70,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (enterName.getText().length() > 0) {
-                    Log.e("bootcamp","text enetered");
+                    Log.e("bootcamp", "text enetered");
                     enterBUtton.setClickable(true);
                     enterBUtton.setEnabled(true);
                     enterNameMSG.setText("");
 
-                }
-                else{
+                } else {
                     enterBUtton.setClickable(false);
                     enterBUtton.setEnabled(false);
                     enterNameMSG.setText("* You have to enter a name !!! *");
@@ -83,5 +86,13 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void writeToSharedPreference(String userName) {
+        Log.e("bootcamp writing ",userName);
+        SharedPreferences sharedPref = this.getSharedPreferences(Constants.KEY_USER_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString(Constants.KEY_USER_NAME, userName);
+        editor.commit();
+
+    }
 }
 
