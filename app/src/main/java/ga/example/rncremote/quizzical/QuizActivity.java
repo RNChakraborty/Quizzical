@@ -43,7 +43,7 @@ public class QuizActivity extends AppCompatActivity implements QuizRepository.Ca
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        // quiz= new QuizRepository(this).getQuiz();
+      //quiz= new QuizRepository(this).getQuiz();
         new QuizRepository(this).getRemoteQuiz(this);
         setContentView(R.layout.activity_quiz);
         initialize();
