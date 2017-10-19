@@ -2,56 +2,72 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/sBackground"
+    android:background="@color/sWhite"
     android:orientation="vertical">
+
 <TextView
     android:id="@+id/question_text"
     android:textStyle="bold"
     android:textSize="40sp"
     android:text="@string/hello_bootcamp"
-    android:padding="40dp"
+    android:padding="30dp"
     android:textAlignment="center"
-    android:textColor="@color/sWhite"
+    android:textColor="@color/colorPrimary"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" />
-
-    <LinearLayout
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
-        <RadioButton
-            android:id="@+id/true_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="True"
-            android:padding="10dp"/>
-        <RadioButton
-            android:id="@+id/false_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="False"
-            android:padding="10dp"/>
-    </LinearLayout>
+    <ImageView
+        android:layout_width="116dp"
+        android:layout_height="100dp"
+        android:padding="10dp"
+        android:src="@drawable/logo_qmark"
+        android:layout_gravity="center"
+        android:layout_weight="0.75" />
     <TextView
-        android:id="@+id/answer_text"
         android:textStyle="bold"
-        android:textSize="40sp"
-        android:padding="40dp"
-        android:textAlignment="center"
-        android:textColor="@color/sWhite"
+        android:textSize="20sp"
+        android:id="@+id/enter_name_text"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-<View
-    android:layout_weight="1"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"/>
-
+        android:layout_height="wrap_content"
+        android:text="Enter your name"
+        android:textColor="@color/colorPrimary"
+        android:textAlignment="center">
+    </TextView>
+    <EditText
+        android:id="@+id/enter_name_edit_text"
+        android:layout_height="match_parent"
+        android:hint=""
+        android:inputType="textPersonName"
+        android:layout_width="match_parent">
+    </EditText>
+    <TextView
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:id="@+id/enter_name_msg_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textColor="@color/colorAccent"
+        android:textAlignment="center"/>
+    <View
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
     <Button
-        android:id="@+id/next_button"
+        android:id="@+id/start_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:text="Next Question" />
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/sWhite"
+        android:text="Start Playing !"
+        android:enabled="false" />
+    <View
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+    <View
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
 </LinearLayout>
