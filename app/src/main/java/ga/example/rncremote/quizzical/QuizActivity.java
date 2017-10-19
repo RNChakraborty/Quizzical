@@ -9,8 +9,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class QuizActivity extends AppCompatActivity {
+public class QuizActivity extends AppCompatActivity implements QuizRepository.CallBack {
 
     private RadioButton trueButton;
     private RadioButton falseButton;
@@ -42,7 +43,8 @@ public class QuizActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        quiz= new QuizRepository(this).getQuiz();
+        // quiz= new QuizRepository(this).getQuiz();
+        new QuizRepository(this).getRemoteQuiz(this);
         setContentView(R.layout.activity_quiz);
         initialize();
         attachListners();
@@ -51,7 +53,7 @@ public class QuizActivity extends AppCompatActivity {
             questionIndex = 0;
             enableRadio();
         }
-        showQuestion();
+        // showQuestion();
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean(KEY_ANSWERED)) {
                 checkAnswer(savedInstanceState.getBoolean(KEY_LAST_ANSWER));
@@ -166,7 +168,6 @@ public class QuizActivity extends AppCompatActivity {
         outState.putBoolean(KEY_ANSWERED, isAnswered);
         outState.putInt(KEY_QUESTION_INDEX, questionIndex);
         outState.putInt(KEY_SCORE, score);
-        Log.e("onsave", "onsaveInstance called");
 
     }
 
@@ -181,6 +182,21 @@ public class QuizActivity extends AppCompatActivity {
 
         trueButton.setEnabled(false);
         falseButton.setEnabled(false);
+    }
+
+    @Override
+    public void onFailure() {
+        Toast.makeText(this, "Something went wrong , Sorry", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onSuccess(Quiz quiz) {
+        this.quiz = quiz;
+        Log.e("net", quiz.getList().size() + "");
+        showQuestion();
+        if (questionAnswered) {
+            checkAnswer(lastAnswer);
+        }
     }
 }
 
